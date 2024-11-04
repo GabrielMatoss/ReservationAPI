@@ -12,7 +12,7 @@ using Reservation.Identity.Data;
 namespace Reservation.Identity.Migrations
 {
     [DbContext(typeof(IdentityDataContext))]
-    [Migration("20241029132411_FirstMigrationIdentity")]
+    [Migration("20241104185726_FirstMigrationIdentity")]
     partial class FirstMigrationIdentity
     {
         /// <inheritdoc />
