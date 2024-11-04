@@ -12,7 +12,7 @@ using Reservation.Data.Context;
 namespace Reservation.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241029132206_FirstMigration")]
+    [Migration("20241104185542_FirstMigration")]
     partial class FirstMigration
     {
         /// <inheritdoc />
@@ -83,15 +83,9 @@ namespace Reservation.Data.Migrations
             modelBuilder.Entity("Reservation.Domain.Entities.Table", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Capacity")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Number")
                         .HasColumnType("int");
 
                     b.Property<int>("ReservationId")
@@ -100,6 +94,38 @@ namespace Reservation.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tables");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Capacity = 2,
+                            ReservationId = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Capacity = 2,
+                            ReservationId = 0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Capacity = 2,
+                            ReservationId = 0
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Capacity = 2,
+                            ReservationId = 0
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Capacity = 2,
+                            ReservationId = 0
+                        });
                 });
 
             modelBuilder.Entity("Reservation.Domain.Entities.Guest", b =>

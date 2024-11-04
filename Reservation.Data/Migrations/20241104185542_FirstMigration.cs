@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Reservation.Data.Migrations
 {
     /// <inheritdoc />
@@ -15,9 +17,7 @@ namespace Reservation.Data.Migrations
                 name: "Tables",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Number = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     ReservationId = table.Column<int>(type: "int", nullable: false),
                     Capacity = table.Column<int>(type: "int", nullable: false)
                 },
@@ -67,6 +67,18 @@ namespace Reservation.Data.Migrations
                         principalTable: "Reservations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Tables",
+                columns: new[] { "Id", "Capacity", "ReservationId" },
+                values: new object[,]
+                {
+                    { 1, 2, 0 },
+                    { 2, 2, 0 },
+                    { 3, 2, 0 },
+                    { 4, 2, 0 },
+                    { 5, 2, 0 }
                 });
 
             migrationBuilder.CreateIndex(
