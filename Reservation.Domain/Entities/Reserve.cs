@@ -2,20 +2,20 @@ namespace Reservation.Domain.Entities;
 
 public class Reserve : EntityBase
 {
-    public DateTime DateReserve {get; set;} //Data Reserva
-    public TimeSpan TimeReserve {get; set;} //Horario Reserva
+    public DateTime DateReserve {get; set;} 
+    public TimeSpan TimeReserve {get; set;}
     public int TableId {get; set;}
-    public string UserId {get; set;} = null!;//Aqui é a referencia do Identity
-    public List<Guest> Guests {get; set;} = [];
+    public string UserId {get; set;} = null!;
+    public List<Guest> Guests { get; set; }
    
-    //Acredito que seja bom a gente criar uma tabela de convidados. Para administrar melhor.
     public string Status {get; set;}
 
-    public Reserve()
+    public Reserve(DateTime dateReserve, TimeSpan timeReserve, string status = "Pending")
     {
-        DateReserve = DateTime.Now.Date;
-        TimeReserve = DateTime.Now.TimeOfDay;
-        Status = "Pending";
+        DateReserve = dateReserve.Date;
+        TimeReserve = timeReserve;
+        Status = status;
+        Guests = new List<Guest>();
     }
 
     public void ConfirmedReserve() => Status = "Confirmed";

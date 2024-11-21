@@ -2,20 +2,21 @@ namespace Reservation.Domain.Entities;
 
 public class Table : EntityBase
 {
-    public int Number {get; set;}
-    public IEnumerable<Reserve> Reserves {get; set;} //propriedade de navegação
+    public IEnumerable<Reserve> Reserves {get; set;} 
     public int ReservationId {get; set;}
     public int Capacity {get; set;}
     
-    public Table()
+    public Table(int id, int capacity = 2, int reservationId = 0)
     {
+        Id = id;
+        ReservationId = reservationId;      
         Reserves = new List<Reserve>();
-        Capacity = 2;
+        Capacity = capacity;
     }
 
-    // Verifica se é possível reservar na data e hora solicitada
     public bool CanReserve(DateTime requestedDateTime)
     {
+        //A data de reserva tem que ser no minímo para o dia de hoje.
         // Verificar a janela de 2 meses a partir de hoje
         var twoMonthsFromNow = DateTime.Now.AddMonths(2);
         if (requestedDateTime > twoMonthsFromNow || requestedDateTime < DateTime.Now)
