@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -7,55 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.11">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.11" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\Migrations\20241026124745_PrimeiraMigracao.cs" />
-    <Compile Remove="Data\Migrations\20241026124745_PrimeiraMigracao.Designer.cs" />
-    <Compile Remove="Data\Migrations\DataIdentityContextModelSnapshot.cs" />
-    <Compile Remove="IdentityData\Migrations\20241026130508_MigracaoIdentity.cs" />
-    <Compile Remove="IdentityData\Migrations\20241026130508_MigracaoIdentity.Designer.cs" />
-    <Compile Remove="IdentityData\Migrations\20241026165444_Migracaozona.cs" />
-    <Compile Remove="IdentityData\Migrations\20241026165444_Migracaozona.Designer.cs" />
-    <Compile Remove="Data\Migrations\20241026173459_primeira.cs" />
-    <Compile Remove="Data\Migrations\20241026173459_primeira.Designer.cs" />
-    <Compile Remove="Domain\**" />
-    <Compile Remove="Data\Mappings\ReserveMappings.cs" />
-    <Compile Remove="Data\Mappings\GuestMappings.cs" />
-    <Compile Remove="Data\DataContext.cs" />
-    <Compile Remove="Data\**" />
-    <Compile Remove="IdentityData\DataIdentityFactory.cs" />
-    <Compile Remove="IdentityData\**" />
-    <Compile Remove="Application\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Remove="Domain\**" />
-    <EmbeddedResource Remove="Data\**" />
-    <EmbeddedResource Remove="IdentityData\**" />
-    <EmbeddedResource Remove="Application\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="Domain\**" />
-    <Content Remove="Data\**" />
-    <Content Remove="IdentityData\**" />
-    <Content Remove="Application\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Domain\**" />
-    <None Remove="Data\**" />
-    <None Remove="IdentityData\**" />
-    <None Remove="Application\**" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\Reservation.Application\Reservation.Application.csproj" />
     <ProjectReference Include="..\Reservation.Data\Reservation.Data.csproj" />
     <ProjectReference Include="..\Reservation.Identity\Reservation.Identity.csproj" />
   </ItemGroup>
