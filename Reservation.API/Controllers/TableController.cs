@@ -1,33 +1,30 @@
 using Microsoft.AspNetCore.Mvc;
-using Reservation.Data.Context;
-using Reservation.Domain.Entities;
+using Reservation.Application.DTOs.Response;
+using Reservation.Domain.Interfaces.Repository;
 
 namespace Reservation.API.Controllers;
 [ApiController]
 [Route("api/tables")]
 public class TableController : ControllerBase
 {
-    private readonly DataContext _context;
-    public TableController(DataContext context)
+    private readonly ITableRepository _tableRepository; 
+    public TableController(ITableRepository tableRepository)
     {
-        _context = context;
+        _tableRepository = tableRepository;
     }
-
+    
+    [ProducesResponseType(typeof(IEnumerable<TableResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpGet]
-    public IActionResult SelectAllTables()
+    public async Task<ActionResult<IEnumerable<TableResponse>>> SelectAllTables()
     {
-        return Ok("Funcionou!!");
-    }
+        var tables = await _tableRepository.GetAllAsync();
+        var tablesResponse = tables?.Select(TableResponse.ConvertToResponse);
 
-    [HttpPost]
-    public IActionResult CreateTable(int number)
-    {
-        return Ok();
-    }
-
-    [HttpPost]
-    public IActionResult ReserveCreation(DateTime dateReserve, TimeSpan timeReserve, IEnumerable<Guest>? guests = null)
-    {
-        return Ok("Sei la mano");
+        if (tablesResponse == null)
+        {
+            return NotFound();
+        }
+        return Ok(tablesResponse);
     }
 }
