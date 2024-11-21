@@ -8,15 +8,13 @@ public class TableMappings : IEntityTypeConfiguration<Table>
 {
     public void Configure(EntityTypeBuilder<Table> builder)
     {
-        builder.Property(e => e.Id).ValueGeneratedNever();
+        builder.HasKey(e => e.Id);
         
-        builder.HasData(new[]
-        {
+        builder.HasData(
             new Table(1), 
             new Table(2), 
             new Table(3), 
             new Table(4), 
-            new Table(5)
-        });
+            new Table(5, 4));
     }
 }
