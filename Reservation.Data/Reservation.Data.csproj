@@ -4,22 +4,14 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <UserSecretsId>a7ac9ed8-19b5-4e76-b8a3-4feee50b7476</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Azure.Identity" Version="1.13.1" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.11" />
-      <PackageReference Include="Microsoft.Identity.Client" Version="4.66.2" />
-      <PackageReference Include="System.Formats.Asn1" Version="8.0.1" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Migrations\" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Remove="Class1.cs" />
     </ItemGroup>
 
     <ItemGroup>
