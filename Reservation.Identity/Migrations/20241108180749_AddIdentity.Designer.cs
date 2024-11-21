@@ -12,8 +12,8 @@ using Reservation.Identity.Data;
 namespace Reservation.Identity.Migrations
 {
     [DbContext(typeof(IdentityDataContext))]
-    [Migration("20241104185726_FirstMigrationIdentity")]
-    partial class FirstMigrationIdentity
+    [Migration("20241108180749_AddIdentity")]
+    partial class AddIdentity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
