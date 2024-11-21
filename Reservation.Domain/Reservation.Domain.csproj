@@ -5,14 +5,5 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
-
-    <ItemGroup>
-      <Folder Include="Interfaces\" />
-      <Folder Include="Services\" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Remove="Class1.cs" />
-    </ItemGroup>
-
+    
 </Project>
