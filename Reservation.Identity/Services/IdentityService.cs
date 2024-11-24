@@ -112,20 +112,22 @@ public class IdentityService : IIdentityService
         };
 
         if (!addClaimsToUser) return claims;
+        //tem que vir aqui as roles
+        //pegando o primeiro registro da tabela com firstordefault se nao ele da excessão.
+        if (_userManager.Users.FirstOrDefault() != null)
+        {
+            await _userManager.AddToRoleAsync(user, Roles.Admin);
+        }
+        
+        await _userManager.AddToRoleAsync(user, Roles.User);
+
         var userClaims = await _userManager.GetClaimsAsync(user);
         var roles = await _userManager.GetRolesAsync(user);
-            
-        if (int.Parse(user.Id) == 1)
-        {
-            roles.Add(Roles.Admin); //refatorar essa parada aqui em 
-        }
-            
-        roles.Add(Roles.User);
             
         claims.AddRange(userClaims);
             
         foreach (var role in roles)
-            claims.Add(new Claim("role", role));
+            claims.Add(new Claim("role", role));//pq? por que transformamos as roles identity em claims para o JWT.
 
         return claims;
     }
