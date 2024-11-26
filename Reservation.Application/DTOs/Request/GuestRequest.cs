@@ -8,7 +8,7 @@ public class GuestRequest
     public string? LastName { get; set; }
     public int ReservationId { get; set; }
 
-    public GuestRequest(string name, string lastname, int reservationId)
+    public GuestRequest(string? name, string? lastname, int reservationId)
     {
         Name = name;
         LastName = lastname;

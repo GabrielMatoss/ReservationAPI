@@ -19,6 +19,10 @@ public class ReserveRequest
 
     public static Reserve ConvertToEntity(ReserveRequest request)
     {
-        return new Reserve(request.DateReserve, request.TimeReserve, request.TableId, request.Guests);
+        return new Reserve(
+            request.DateReserve,
+            request.TimeReserve,
+            request.TableId,
+            request.Guests.Select(e => new Guest(e?.Name, e?.LastName, e!.ReservationId)).ToList());
     }
 }
