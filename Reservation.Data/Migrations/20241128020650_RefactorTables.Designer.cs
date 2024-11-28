@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Reservation.Data.Context;
 
@@ -11,9 +12,11 @@ using Reservation.Data.Context;
 namespace Reservation.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20241128020650_RefactorTables")]
+    partial class RefactorTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,43 +102,6 @@ namespace Reservation.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tables");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Capacity = 2,
-                            IsReserved = false,
-                            TableNumber = 3
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Capacity = 4,
-                            IsReserved = false,
-                            TableNumber = 5
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Capacity = 2,
-                            IsReserved = false,
-                            TableNumber = 4
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Capacity = 2,
-                            IsReserved = false,
-                            TableNumber = 2
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Capacity = 4,
-                            IsReserved = false,
-                            TableNumber = 1
-                        });
                 });
 
             modelBuilder.Entity("Reservation.Domain.Entities.Guest", b =>
