@@ -4,18 +4,20 @@ namespace Reservation.Application.DTOs.Request;
 
 public class TableRequest
 {
-    public int Capacity {get; set;}
-    
-    public int ReservationId {get; set;}
+    public int TableNumber { get; set; }
+    public int Capacity { get; set; }
+    public bool IsReserved { get; set; }
 
-    public TableRequest(int capacity, int reservationId)
+    public TableRequest(int capacity, int tableNumber)
     {
         Capacity = capacity;
-        ReservationId = reservationId;
+        TableNumber = tableNumber;
+        IsReserved = false;
     }
 
+    //esse método estático está dando erro após as alterações na Table
     public static Table ConvertToEntity(TableRequest request)
     {
-     return new Table(request.Capacity, request.ReservationId);   
+     return new Table(request.TableNumber, request.Capacity, request.IsReserved);   
     }
 }

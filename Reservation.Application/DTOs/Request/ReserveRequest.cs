@@ -7,13 +7,12 @@ public class ReserveRequest
     public DateTime DateReserve { get; set; }
     public TimeSpan TimeReserve { get; set; }
     public int TableId { get; set; }
-    public List<GuestRequest?> Guests { get; set; }
+    //public List<GuestRequest?> Guests { get; set; }
 
-    public ReserveRequest(DateTime dateReserve, TimeSpan timeReserve, List<GuestRequest?> guests, int tableId)
+    public ReserveRequest(DateTime dateReserve, TimeSpan timeReserve, int tableId)
     {
         DateReserve = dateReserve.Date;
         TimeReserve = timeReserve;
-        Guests = guests ?? [];
         TableId = tableId;
     }
 
@@ -22,7 +21,6 @@ public class ReserveRequest
         return new Reserve(
             request.DateReserve,
             request.TimeReserve,
-            request.TableId,
-            request.Guests.Select(e => new Guest(e?.Name, e?.LastName, e!.ReservationId)).ToList());
+            request.TableId);
     }
 }

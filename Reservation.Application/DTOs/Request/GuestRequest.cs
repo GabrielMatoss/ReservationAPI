@@ -8,14 +8,13 @@ public class GuestRequest
     public string? LastName { get; set; }
     public int ReservationId { get; set; }
 
-    public GuestRequest(string? name, string? lastname, int reservationId)
+    public GuestRequest(string? name, string? lastname)
     {
         Name = name;
         LastName = lastname;
-        ReservationId = reservationId;
     }
     public static Guest ConvertToEntity(GuestRequest request)
     {
-        return new Guest(request.Name, request.LastName, request.ReservationId);
+        return new Guest(request.Name, request.LastName);
     }
 }
