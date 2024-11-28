@@ -15,6 +15,5 @@ public class GuestMappings : IEntityTypeConfiguration<Guest>
         builder.Property(g => g.Name).HasMaxLength(100);
         
         builder.Property(g => g.LastName).HasMaxLength(100);
-        
     }
 }
