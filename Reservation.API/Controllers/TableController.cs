@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Reservation.Application.DTOs.Request;
 using Reservation.Application.DTOs.Response;
 using Reservation.Domain.Interfaces.Services;
+using Reservation.Identity.Configurations;
 
 namespace Reservation.API.Controllers;
 
@@ -15,6 +17,7 @@ public class TableController : ControllerBase
         _tableService = tableService;
     }
     
+    [Authorize]
     [ProducesResponseType(typeof(IEnumerable<TableResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpGet]
@@ -29,7 +32,8 @@ public class TableController : ControllerBase
         }
         return Ok(tablesResponse);
     }
-    
+
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<ActionResult<TableResponse>> SelectById(int id)
     {
@@ -42,6 +46,7 @@ public class TableController : ControllerBase
         return Ok(tableResponse);
     }
 
+    [Authorize(Roles = Roles.Admin)]
     [HttpPost]
     public async Task<ActionResult<TableResponse>> AddNewTable(TableRequest tableRequest)
     {
@@ -57,6 +62,7 @@ public class TableController : ControllerBase
         return CreatedAtAction(nameof(SelectById), new { id }, id);
     }
 
+    [Authorize(Roles = Roles.Admin)]
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteTableById(int id)
     {
@@ -70,7 +76,8 @@ public class TableController : ControllerBase
 
         return Ok("Table deleted!");
     }
-    
+
+    [Authorize(Roles = Roles.Admin)]
     [HttpPut]
     public async Task<ActionResult> UpdateTable(int id, TableRequest tableRequest)
     {
