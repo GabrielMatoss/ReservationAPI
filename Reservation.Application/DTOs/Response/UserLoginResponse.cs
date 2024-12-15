@@ -4,11 +4,12 @@ public class UserLoginResponse
 {
     public UserLoginResponse()
     {}
-    public UserLoginResponse(string email, string accessToken) 
+    
+    public UserLoginResponse(string email, string accessToken, string message) 
     {
         Email = email;
         AccessToken = accessToken;
-        Message = "";
+        Message = message ?? "";
     }
         
     public string? AccessToken { get; private set; }
