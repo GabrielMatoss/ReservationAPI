@@ -15,9 +15,8 @@ public class TableRequest
         IsReserved = false;
     }
 
-    //esse método estático está dando erro após as alterações na Table
     public static Table ConvertToEntity(TableRequest request)
     {
-     return new Table(request.TableNumber, request.Capacity, request.IsReserved);   
+        return new Table(request.TableNumber, request.Capacity, request.IsReserved);   
     }
 }
