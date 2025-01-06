@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
@@ -14,12 +13,18 @@ public class IdentityService : IIdentityService
 {
     private readonly UserManager<IdentityUser> _userManager;
     private readonly SignInManager<IdentityUser> _signInManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
     private readonly JwtOptions _jwtOptions;
 
-    public IdentityService(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IOptions<JwtOptions> jwtOptions)
+    public IdentityService(
+        SignInManager<IdentityUser> signInManager,
+        UserManager<IdentityUser> userManager,
+        RoleManager<IdentityRole> roleManager,
+        IOptions<JwtOptions> jwtOptions)
     {
         _signInManager = signInManager;
         _userManager = userManager;
+        _roleManager = roleManager;
         _jwtOptions = jwtOptions.Value;
     }
 
@@ -27,7 +32,7 @@ public class IdentityService : IIdentityService
     {
         var identityUser = new IdentityUser
         {
-            UserName = userRegisterRequest.Name,
+            UserName = userRegisterRequest.Email,
             Email = userRegisterRequest.Email,
             EmailConfirmed = true
         };
@@ -38,39 +43,39 @@ public class IdentityService : IIdentityService
             var errorResult = result.Errors.Select(r => r.Description);
             throw new ArgumentException(errorResult.ToString());
         }
-        
+
         await _userManager.SetLockoutEnabledAsync(identityUser, false);
 
         var userRegisterResponse = new UserRegisterResponse(
-            userRegisterRequest.Name, 
-            userRegisterRequest.LastName, 
+            userRegisterRequest.Name,
+            userRegisterRequest.LastName,
             userRegisterRequest.Email);
+
         userRegisterResponse.HandlerMessage("Register successfully.");
-        
+
         return userRegisterResponse;
     }
 
     public async Task<UserLoginResponse> Login(UserLoginRequest userLoginRequest)
     {
-        var result = await _signInManager
-            .PasswordSignInAsync(
-                userLoginRequest.Email, 
-                userLoginRequest.Password, 
-                false, 
+        var result = await _signInManager.PasswordSignInAsync(
+                userLoginRequest.Email,
+                userLoginRequest.Password,
+                false,
                 true);
-        
-        if(result.Succeeded)
+
+        if (result.Succeeded)
         {
             return await GenerateCredentials(userLoginRequest.Email);
         }
-     
+
         var userLoginResponse = new UserLoginResponse();
-        
+
         if (!result.Succeeded)
         {
             userLoginResponse.HandlerMessage("Login failed, email or password is incorrect.");
         }
-        
+
         return userLoginResponse;
     }
 
@@ -79,12 +84,12 @@ public class IdentityService : IIdentityService
         var user = await _userManager.FindByEmailAsync(email);
         if (user == null)
             throw new ArgumentException("User not found");
-        
-        var accessTokenClaims = await GetClaims(user, addClaimsToUser: true);   
-        var dateAccessTokenExpiration = DateTime.Now.AddMinutes(_jwtOptions.AccessTokenExpiration);
+
+        var accessTokenClaims = await GetClaims(user, addClaimsToUser: true);
+        var dateAccessTokenExpiration = DateTime.Now.AddSeconds(_jwtOptions.AccessTokenExpiration);
         var accessToken = GenerateToken(accessTokenClaims, dateAccessTokenExpiration);
-        
-        return new UserLoginResponse(accessToken: accessToken, email: user.UserName!);
+
+        return new UserLoginResponse(email: user.Email!, accessToken: accessToken, message: "Login success!");
     }
 
     private string GenerateToken(IEnumerable<Claim> claims, DateTime dateExpiration)
@@ -96,7 +101,7 @@ public class IdentityService : IIdentityService
             expires: dateExpiration,
             notBefore: DateTime.Now,
             signingCredentials: _jwtOptions.SigningCredentials);
-        
+
         return new JwtSecurityTokenHandler().WriteToken(jwt);
     }
 
@@ -107,28 +112,41 @@ public class IdentityService : IIdentityService
             new Claim(JwtRegisteredClaimNames.Sub, user.Id),
             new Claim(JwtRegisteredClaimNames.Email, user.Email!),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(JwtRegisteredClaimNames.Nbf, DateTime.Now.ToString(CultureInfo.CurrentCulture)),
-            new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToString(CultureInfo.CurrentCulture))
+            new Claim(JwtRegisteredClaimNames.Nbf, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString()),
+            new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString())
         };
 
         if (!addClaimsToUser) return claims;
-        //tem que vir aqui as roles
-        //pegando o primeiro registro da tabela com firstordefault se nao ele da excessão.
-        if (_userManager.Users.FirstOrDefault() != null)
+
+        
+        //Verifica se já existe e as cria
+        if (!await _roleManager.RoleExistsAsync(Roles.Admin))
+        {
+            await _roleManager.CreateAsync(new IdentityRole(Roles.Admin));
+        }
+
+        if (!await _roleManager.RoleExistsAsync(Roles.User))
+        {
+            await _roleManager.CreateAsync(new IdentityRole(Roles.User));
+        }
+        //Adiciona as roles ao usuario
+        if (_userManager.Users.Count() == 1)
         {
             await _userManager.AddToRoleAsync(user, Roles.Admin);
         }
-        
-        await _userManager.AddToRoleAsync(user, Roles.User);
 
+        if (!await _userManager.IsInRoleAsync(user, Roles.Admin))
+        {
+            await _userManager.AddToRoleAsync(user, Roles.User);
+        }
+        
         var userClaims = await _userManager.GetClaimsAsync(user);
         var roles = await _userManager.GetRolesAsync(user);
-            
-        claims.AddRange(userClaims);
-            
-        foreach (var role in roles)
-            claims.Add(new Claim("role", role));//pq? por que transformamos as roles identity em claims para o JWT.
 
+        claims.AddRange(userClaims);
+
+        claims.AddRange(roles.Select(role => new Claim("role", role)));
+        
         return claims;
     }
-}
+};
