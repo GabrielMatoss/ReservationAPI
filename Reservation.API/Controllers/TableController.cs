@@ -27,9 +27,8 @@ public class TableController : ControllerBase
         var tablesResponse = tables?.Select(TableResponse.ConvertToResponse);
 
         if (tablesResponse == null)
-        {
             return NotFound();
-        }
+        
         return Ok(tablesResponse);
     }
 
@@ -39,9 +38,8 @@ public class TableController : ControllerBase
     {
         var table = await _tableService.GetByIdAsync(id);
         if (table == null) 
-        {
             NotFound("Table not found");
-        }
+        
         var tableResponse = TableResponse.ConvertToResponse(table!);
         return Ok(tableResponse);
     }
@@ -53,9 +51,7 @@ public class TableController : ControllerBase
         var table = TableRequest.ConvertToEntity(tableRequest);
 
         if (table == null)
-        {
             return BadRequest("Convert to Entity is not possible");
-        }
 
         var id = (int)await _tableService.AddAsync(table);
 
@@ -68,9 +64,7 @@ public class TableController : ControllerBase
     {
         var table = await _tableService.GetByIdAsync(id);
         if (table == null)
-        {
             NotFound("Table not found");
-        }
 
         await _tableService.DeleteByIdAsync(id);
 
@@ -84,9 +78,7 @@ public class TableController : ControllerBase
         var trackedTable = await _tableService.GetByIdAsync(id);
 
         if (trackedTable == null)
-        {
             NotFound("Table not founded");
-        }
         
         var table = TableRequest.ConvertToEntity(tableRequest);
         
