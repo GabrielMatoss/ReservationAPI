@@ -30,10 +30,14 @@ public class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : 
         return entity.Id;
     }
 
-    public virtual async Task UpdateASync(TEntity entity)
+    public virtual async Task UpdateAsync(int id, TEntity entity)
     {
-       _context.Entry(entity).State = EntityState.Modified;
-       await _context.SaveChangesAsync();
+        var trackedEntity = await _context.Set<TEntity>().FindAsync(id) ?? 
+            throw new InvalidOperationException("The entity was not found in the database.");
+
+        _context.Entry(trackedEntity).CurrentValues.SetValues(entity);
+        
+        await _context.SaveChangesAsync();
     }
 
     public virtual async Task DeleteAsync(TEntity entity)
@@ -44,11 +48,9 @@ public class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : 
 
     public virtual async Task DeleteByIdAsync(int id)
     {
-        var entity = await _context.Set<TEntity>().FindAsync(id);
-        if (entity != null)
-        {
-            await DeleteAsync(entity);
-        }
-        throw new Exception("Registro não encontrado!");
+        var entity = await _context.Set<TEntity>().FindAsync(id)
+            ?? throw new Exception("Registro não encontrado!");
+
+        await DeleteAsync(entity);
     }
 }
