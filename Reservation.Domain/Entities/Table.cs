@@ -18,24 +18,6 @@ public class Table : EntityBase
     public Table(int id, int tableNumber, int capacity = 2, bool isReserved = false)
     : this(tableNumber, capacity, isReserved)
     {
-        Id = id; // Define o valor de Id explicitamente.
+        Id = id;
     }
 }
-/*
-    public void ReserveTable(int reservationId)
-    {
-        if (IsReserved)
-            throw new InvalidOperationException("The table is already reserved. Please choose another one.");
-
-        ReservationId = reservationId;
-        IsReserved = true;
-    }
-
-    public void RealeaseTable()
-    {
-        if (!IsReserved)
-            throw new InvalidOperationException("The table is available!");
-
-        IsReserved = false;
-        ReservationId = null;
-    }]*/
