@@ -118,7 +118,6 @@ public class IdentityService : IIdentityService
 
         if (!addClaimsToUser) return claims;
 
-        
         //Verifica se já existe e as cria
         if (!await _roleManager.RoleExistsAsync(Roles.Admin))
         {
@@ -129,6 +128,7 @@ public class IdentityService : IIdentityService
         {
             await _roleManager.CreateAsync(new IdentityRole(Roles.User));
         }
+
         //Adiciona as roles ao usuario
         if (_userManager.Users.Count() == 1)
         {
