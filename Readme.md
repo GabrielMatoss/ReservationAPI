@@ -40,10 +40,9 @@ Este projeto é um pequeno sistema de reservas de que permite aos usuários faze
     dotnet restore
     ```
 
-4. Configure o banco de dados:
+4. Rode as Migrations:
 
     ```bash
-    Use o banco de dados da sua preferência.
     dotnet ef database update -c DataContext -s ../Reservation.API
     dotnet ef database update -c IdentityDataContext -s ../Reservation.API
     ```
