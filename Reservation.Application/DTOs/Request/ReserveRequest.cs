@@ -4,23 +4,21 @@ namespace Reservation.Application.DTOs.Request;
 
 public class ReserveRequest
 {
-    public DateTime DateReserve { get; set; }
-    public TimeSpan TimeReserve { get; set; }
-    public int TableId { get; set; }
-    //public List<GuestRequest?> Guests { get; set; }
-
-    public ReserveRequest(DateTime dateReserve, TimeSpan timeReserve, int tableId)
+    public DateTime DateTimeReserve { get; set; } = DateTime.Now.Date;
+    public int Tableid { get; set; }
+    public ReserveRequest(DateTime dateTimeReserve, int tableId)
     {
-        DateReserve = dateReserve.Date;
-        TimeReserve = timeReserve;
-        TableId = tableId;
+        DateTimeReserve = dateTimeReserve;
+        Tableid = tableId;
     }
-
-    public static Reserve ConvertToEntity(ReserveRequest request)
+    
+    public static Reserve ConvertToEntity(ReserveRequest request, string userId)
     {
         return new Reserve(
-            request.DateReserve,
-            request.TimeReserve,
-            request.TableId);
+            request.DateTimeReserve,
+            request.Tableid,
+            userId
+        );
     }
+    
 }
