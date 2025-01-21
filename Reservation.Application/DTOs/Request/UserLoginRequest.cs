@@ -4,11 +4,11 @@ namespace Reservation.Application.DTOs.Request;
 
 public class UserLoginRequest
 {
-    [Required(ErrorMessage = "O campo {0} é obrigatório")]
-    [EmailAddress(ErrorMessage = "O campo {0} é inválido")]
+    [Required(ErrorMessage = "Field {0} is mandatory")]
+    [EmailAddress(ErrorMessage = "Field {0} is mandatory")]
     public string Email { get; set; } = null!;
     
-    [Required(ErrorMessage = "O campo {0} é obrigatório")]
+    [Required(ErrorMessage = "Field {0} is mandatory")]
     [DataType(DataType.Password)]
     public string Password { get; set; } = null!;
 }
