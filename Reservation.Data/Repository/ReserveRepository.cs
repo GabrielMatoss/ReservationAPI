@@ -7,5 +7,5 @@ namespace Reservation.Data.Repository;
 public class ReserveRepository : RepositoryBase<Reserve>, IReserveRepository
 {
     public ReserveRepository(DataContext dataContext) : base(dataContext)
-    {}
+    { }
 }
