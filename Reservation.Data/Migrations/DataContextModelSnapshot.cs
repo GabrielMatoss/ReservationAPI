@@ -22,29 +22,6 @@ namespace Reservation.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Reservation.Domain.Entities.Guest", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("ReservationId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("LastName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("UserId", "ReservationId");
-
-                    b.HasIndex("ReservationId");
-
-                    b.ToTable("Guests");
-                });
-
             modelBuilder.Entity("Reservation.Domain.Entities.Reserve", b =>
                 {
                     b.Property<int>("Id")
@@ -53,17 +30,11 @@ namespace Reservation.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DateReserve")
+                    b.Property<DateTime>("DateTimeReserve")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("TableId")
                         .HasColumnType("int");
-
-                    b.Property<int>("TableNumber")
-                        .HasColumnType("int");
-
-                    b.Property<TimeSpan>("TimeReserve")
-                        .HasColumnType("time");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -106,47 +77,36 @@ namespace Reservation.Data.Migrations
                             Id = 1,
                             Capacity = 2,
                             IsReserved = false,
-                            TableNumber = 3
+                            TableNumber = 1
                         },
                         new
                         {
                             Id = 2,
                             Capacity = 4,
                             IsReserved = false,
-                            TableNumber = 5
+                            TableNumber = 2
                         },
                         new
                         {
                             Id = 3,
                             Capacity = 2,
                             IsReserved = false,
-                            TableNumber = 4
+                            TableNumber = 3
                         },
                         new
                         {
                             Id = 4,
                             Capacity = 2,
                             IsReserved = false,
-                            TableNumber = 2
+                            TableNumber = 4
                         },
                         new
                         {
                             Id = 5,
                             Capacity = 4,
                             IsReserved = false,
-                            TableNumber = 1
+                            TableNumber = 5
                         });
-                });
-
-            modelBuilder.Entity("Reservation.Domain.Entities.Guest", b =>
-                {
-                    b.HasOne("Reservation.Domain.Entities.Reserve", "Reserve")
-                        .WithMany("Guests")
-                        .HasForeignKey("ReservationId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Reserve");
                 });
 
             modelBuilder.Entity("Reservation.Domain.Entities.Reserve", b =>
@@ -154,13 +114,8 @@ namespace Reservation.Data.Migrations
                     b.HasOne("Reservation.Domain.Entities.Table", null)
                         .WithMany("Reserves")
                         .HasForeignKey("TableId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Reservation.Domain.Entities.Reserve", b =>
-                {
-                    b.Navigation("Guests");
                 });
 
             modelBuilder.Entity("Reservation.Domain.Entities.Table", b =>
