@@ -35,9 +35,12 @@ builder.Services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
 builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddScoped<ITableService, TableService>();
 builder.Services.AddScoped<ITableRepository, TableRepository>();
+builder.Services.AddScoped<IReserveService, ReserveService>();
+builder.Services.AddScoped<IReserveRepository, ReserveRepository>();
 
 builder.Services.AddControllers();
 builder.Services.AddConfigAuthentication(builder.Configuration);
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
