@@ -4,23 +4,23 @@ namespace Reservation.Application.DTOs.Request;
 
 public class UserRegisterRequest
 {
-    [Required(ErrorMessage = "O campo {0} é obrigatório!")]
+    [Required(ErrorMessage = "Field {0} is mandatory")]
     public string Name { get; set; } = null!;
     
-    [Required(ErrorMessage = "O campo {0} é obrigatório!")]
-    [StringLength(40, ErrorMessage = "O campo {0} deve ter no máximo 40 caracteres!")]
+    [Required(ErrorMessage = "Field {0} is mandatory")]
+    [StringLength(40, ErrorMessage = "The field {0} must have a maximum of 40 characters")]
     public string LastName { get; set; } = null!;
     
-    [Required(ErrorMessage = "O campo {0} é obrigatório!")]
-    [EmailAddress(ErrorMessage = "O campo {0} é inválido!")]
+    [Required(ErrorMessage = "Field {0} is mandatory")]
+    [EmailAddress(ErrorMessage = "Field {0} is mandatory")]
     public string Email { get; set; } = null!;
     
-    [Required(ErrorMessage = "O campo {0} é obrigatório!")]
-    [StringLength(50, ErrorMessage = "O campo {0} deve ter no mínimo 6 caracteres e no máximo 50 caracteres", MinimumLength = 6)]
+    [Required(ErrorMessage = "Field {0} is mandatory")]
+    [StringLength(50, ErrorMessage = "The field {0} must have at least 6 characters and a maximum of 50 characters", MinimumLength = 6)]
     [DataType(DataType.Password)]
     public string Password { get; set; } = null!;
     
-    [Required(ErrorMessage = "O campo {0} é obrigatório!")]
-    [Compare(nameof(Password), ErrorMessage = "As senhas devem ser iguais")]
+    [Required(ErrorMessage = "Field {0} is mandatory")]
+    [Compare(nameof(Password), ErrorMessage = "Passwords must be the same")]
     public string PasswordConfirm { get; set; } = null!;
 }
