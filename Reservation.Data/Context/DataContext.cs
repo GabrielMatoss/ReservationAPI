@@ -9,7 +9,6 @@ public class DataContext : DbContext
     
     public DbSet<Table> Tables { get; set; }
     public DbSet<Reserve> Reservations { get; set; }
-    public DbSet<Guest> Guests { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
