@@ -20,6 +20,7 @@ public class Table : EntityBase
     {
         Id = id; // Define o valor de Id explicitamente.
     }
+}
 /*
     public void ReserveTable(int reservationId)
     {
@@ -38,4 +39,3 @@ public class Table : EntityBase
         IsReserved = false;
         ReservationId = null;
     }]*/
-}
