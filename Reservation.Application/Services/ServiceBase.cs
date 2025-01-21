@@ -2,8 +2,6 @@ using Reservation.Domain.Entities;
 using Reservation.Domain.Interfaces.Repository;
 using Reservation.Domain.Interfaces.Services;
 
-namespace Reservation.Application.Services;
-
 public class ServiceBase<TEntity> : IServiceBase<TEntity> where TEntity : EntityBase
 {
     private readonly IRepositoryBase<TEntity> _repositoryBase;
@@ -28,9 +26,9 @@ public class ServiceBase<TEntity> : IServiceBase<TEntity> where TEntity : Entity
         return await _repositoryBase.AddAsync(entity);
     }
 
-    public virtual async Task UpdateASync(TEntity entity)
+    public virtual async Task UpdateAsync(int id, TEntity entity)
     {
-        await _repositoryBase.UpdateASync(entity);
+        await _repositoryBase.UpdateAsync(id, entity);
     }
 
     public virtual async Task DeleteAsync(TEntity entity)
