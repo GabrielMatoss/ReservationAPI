@@ -8,12 +8,17 @@ public class ReserveMappings : IEntityTypeConfiguration<Reserve>
 {
     public void Configure(EntityTypeBuilder<Reserve> builder)
     {
-        builder.HasOne<Table>()
+        builder.HasKey(e => e.Id);
+
+        builder.Property(e => e.DateTimeReserve).HasColumnType("datetime2");
+        
+        builder
+            .HasOne<Table>()
             .WithMany(e => e.Reserves)
-            .HasForeignKey(e => e.TableId);
-       
-        builder.HasMany(e => e.Guests)
-            .WithOne(e => e.Reserve).HasForeignKey(e => e.ReservationId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .HasForeignKey(e => e.TableId).OnDelete(DeleteBehavior.NoAction);
+
+
+        builder.Property(e => e.UserId)
+        .IsRequired();
     }
 }
